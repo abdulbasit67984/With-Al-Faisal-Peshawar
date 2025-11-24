@@ -100,12 +100,12 @@ const ViewBill = React.forwardRef((props, ref) => {
                             {bill?.billItems && bill?.billItems.map((item, index) => (
                                 <tr key={index} className="break-inside-avoid border-2 border-black">
                                     <td className="text-xs p-2">{index + 1}</td>
-                                    <td className="text-xs p-2">{commonFunction.truncateString(item.productId.productName, 50)}</td>
+                                    <td className="text-xs p-2">{commonFunction.truncateString(item.productId?.productName, 50)}</td>
                                     <td className="text-xs p-2">{commonFunction.truncateString(item.productId?.companyId?.companyName, 13)}</td>
                                     <td className="text-xs p-2">
                                         <div>
                                             {((item.quantity + item.billItemUnit / item.billItemPack) < 1 || item.quantity === 0) ? (item.billItemUnit) : (item.quantity + item.billItemUnit / item.billItemPack)?.toFixed(2)}
-                                            <span> {((item.quantity + item.billItemUnit / item.billItemPack) < 1 || item.quantity === 0) ? (item.productId.packUnit)?.toUpperCase() || 'PCS' : (item.productId.quantityUnit)?.toUpperCase() || 'PCS'}</span>
+                                            <span> {((item.quantity + item.billItemUnit / item.billItemPack) < 1 || item.quantity === 0) ? (item.productId?.packUnit)?.toUpperCase() || 'PCS' : (item.productId?.quantityUnit)?.toUpperCase() || 'PCS'}</span>
                                         </div>
                                     </td>
                                     <td className="text-xs p-2">
