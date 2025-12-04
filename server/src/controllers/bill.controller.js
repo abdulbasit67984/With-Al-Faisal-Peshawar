@@ -279,13 +279,13 @@ const registerBill = asyncHandler(async (req, res) => {
                             debit: totalAmount - flatDiscount,
                             reference: customerIndividualAccount.mergedInto !== null ? customerIndividualAccount.mergedInto : customerIndividualAccount._id,
                         },
-                        {
-                            BusinessId,
-                            individualAccountId: salesRevenueAccount._id,
-                            details: `Revenue for Bill ${billNo}`,
-                            credit: salesRevenue,
-                            reference: customerIndividualAccount.mergedInto !== null ? customerIndividualAccount.mergedInto : customerIndividualAccount._id,
-                        },
+                        // {
+                        //     BusinessId,
+                        //     individualAccountId: salesRevenueAccount._id,
+                        //     details: `Revenue for Bill ${billNo}`,
+                        //     credit: salesRevenue,
+                        //     reference: customerIndividualAccount.mergedInto !== null ? customerIndividualAccount.mergedInto : customerIndividualAccount._id,
+                        // },
                         paidAmount
                             ? {
                                 BusinessId,
@@ -327,9 +327,16 @@ const registerBill = asyncHandler(async (req, res) => {
             }
 
 
-            // if (customer && mobileNo) {
-            //     await sendWhatsappMessage(mobileNo, `Thank you for choosing Parko Electric & Electronics`);
-            // }
+            if (customer && mobileNo) {
+                await sendWhatsappMessage(mobileNo, `Thank you for choosing With Al-Faisal Machinery Store.
+                    \n\n*Bill Details:*
+                    Bill No: ${billNo}
+                    Customer: ${customerDetails?.customerName}
+                    Total Bill: ${totalAmount}
+                    Flat Discount: ${flatDiscount}
+                    Paid Amount: ${paidAmount}
+                    *Net Total:* ${totalAmount - flatDiscount - paidAmount}`);
+            }
 
             // const test = true;
             // if(test){
