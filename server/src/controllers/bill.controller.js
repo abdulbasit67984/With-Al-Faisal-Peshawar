@@ -329,13 +329,13 @@ const registerBill = asyncHandler(async (req, res) => {
 
             if (customer && mobileNo) {
                 await sendWhatsappMessage(mobileNo, `Thank you for choosing With Al-Faisal Machinery Store.
-                    \n\n*Bill Details:*
-                    Bill No: ${billNo}
-                    Customer: ${customerDetails?.customerName}
-                    Total Bill: ${totalAmount}
-                    Flat Discount: ${flatDiscount}
-                    Paid Amount: ${paidAmount}
-                    *Net Total:* ${totalAmount - flatDiscount - paidAmount}`);
+                \n\n*Bill Details:*
+                Bill No: ${billNo}
+                Customer: ${customerDetails?.customerName}
+                Total Bill: ${totalAmount}
+                Flat Discount: ${flatDiscount}
+                Paid Amount: ${paidAmount}
+                *Net Total:* ${totalAmount - flatDiscount - paidAmount}`);
             }
 
             // const test = true;
