@@ -509,9 +509,14 @@ const updateProduct = asyncHandler(async (req, res) => {
                 oldProduct.productPurchasePrice = productPurchasePrice;
 
                 transaction.addOperation(
-                    async () => await oldProduct.save(),
                     async () => {
+                        await lastStatusOfPrice.save();
+                        await oldProduct.save();
+                    },
+                    async () => {
+                        lastStatusOfPrice.newPrice = originalStatusPrice;
                         oldProduct.productPurchasePrice = originalPurchasePrice;
+                        await lastStatusOfPrice.save();
                         await oldProduct.save();
                     }
                 );
@@ -844,10 +849,10 @@ const getExpiryReport = asyncHandler(async (req, res) => {
                 $lte: futureDate,
             }
         })
-        .populate("typeId", "typeName")
-        .populate("companyId", "companyName")
-        .sort({ productExpiryDate: 1 })
-        .lean();
+            .populate("typeId", "typeName")
+            .populate("companyId", "companyName")
+            .sort({ productExpiryDate: 1 })
+            .lean();
 
         return res.status(200).json(
             new ApiResponse(200, expiringProducts, `Expiry report generated for next ${days} days`)
