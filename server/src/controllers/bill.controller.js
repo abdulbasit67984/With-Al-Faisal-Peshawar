@@ -247,7 +247,7 @@ const registerBill = asyncHandler(async (req, res) => {
                     paidAmount,
                     dueDate,
                     totalPurchaseAmount,
-                    billRevenue: salesRevenue,
+                    billRevenue: salesRevenue > 0 ? salesRevenue : totalAmount * 15 / 100,
                     extraItems
 
                 },

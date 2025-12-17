@@ -242,7 +242,6 @@ const StockSearch = () => {
                                     <th className="py-2 px-1 text-left">Category</th>
                                     <th className="py-2 px-1 text-left">Sale Price</th>
                                     <th className="py-2 px-1 text-left">Purchase Price</th>
-                                    <th className="py-2 px-1 text-left">Status Price</th>
                                     <th className="py-2 px-1 text-left">Total Qty</th>
                                     <th className="py-2 px-1 text-left">Total Units</th>
                                     <th className="py-2 px-1 text-left">Action</th>
@@ -260,7 +259,6 @@ const StockSearch = () => {
                                         <td className="px-1 py-1">{product.categoryDetails[0]?.productName}</td>
                                         <td className="px-1 py-1">{product.salePriceDetails[0]?.salePrice1}</td>
                                         <td className={`px-1 py-1 ${product.productPurchasePrice > product.salePriceDetails[0]?.salePrice1 && 'bg-red-400'}`}>{product.productPurchasePrice}</td>
-                                        <td className={`px-1 py-1 ${product.productPurchasePrice != product.statusOfPriceDetails[0]?.newPrice && 'bg-red-400'}`}>{product.statusOfPriceDetails[0]?.newPrice}</td>
                                         <td className="px-1 py-1">{Math.ceil(product.productTotalQuantity / product.productPack)}</td>
                                         <td className="px-1 py-1">{Math.ceil(product.productTotalQuantity)}</td>
                                         <td className="py-1 px-2 flex gap-2">
