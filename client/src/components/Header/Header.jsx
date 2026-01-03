@@ -386,7 +386,7 @@ function Header() {
         `}
       >
         {/* Animated gradient overlay */}
-        <motion.div
+        {/* <motion.div
           className="absolute inset-0 opacity-30"
           animate={{
             background: [
@@ -396,7 +396,7 @@ function Header() {
             ],
           }}
           transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-        />
+        />} */}
 
         {/* <Container className={'shadow-lg z-50 relative h-full '}> */}
           <nav className='flex items-center justify-between h-full overflow-y-auto'>
