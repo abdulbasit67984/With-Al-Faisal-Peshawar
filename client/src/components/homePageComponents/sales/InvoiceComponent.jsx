@@ -83,6 +83,7 @@ const InvoiceComponent = () => {
   const [extraProduct, setExtraProduct] = useState({
     id: 0,
     itemName: '',
+    purchasePrice: 0,
     salePrice: 0,
     quantity: 1
   });
@@ -825,6 +826,16 @@ const InvoiceComponent = () => {
                   type="text"
                   value={extraProduct.itemName}
                   onChange={(e) => setExtraProduct({ ...extraProduct, itemName: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-md text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-700 text-sm mb-1">Purchase Price</label>
+                <input
+                  type="number"
+                  value={extraProduct.purchasePrice}
+                  onChange={(e) => setExtraProduct({ ...extraProduct, purchasePrice: e.target.value })}
                   className="w-full px-3 py-2 border rounded-md text-sm"
                 />
               </div>

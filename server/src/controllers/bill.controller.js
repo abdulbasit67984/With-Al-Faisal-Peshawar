@@ -189,12 +189,18 @@ const registerBill = asyncHandler(async (req, res) => {
                 (sum, item) => sum + (Number(item?.salePrice || 0) * Number(item?.quantity || 0)),
                 0
             );
+
+            const totalExtraItemsRevenue = extraItems?.reduce(
+                (sum, item) => sum + ((Number(item?.salePrice || 0) - Number(item?.purchasePrice || 0)) * Number(item?.quantity || 0)),
+                0
+            );
             // console.log('totalExtraItemsAmount', totalExtraItemsAmount)
+            // console.log('totalExtraItemsRevenue', totalExtraItemsRevenue)
 
             const originalInventoryBalance = inventoryAccount.accountBalance;
             inventoryAccount.accountBalance -= totalPurchaseAmount;
 
-            const salesRevenue = totalAmount - flatDiscount - totalPurchaseAmount - Number(totalExtraItemsAmount);
+            const salesRevenue = totalAmount - flatDiscount - totalPurchaseAmount - Number(totalExtraItemsAmount) + Number(totalExtraItemsRevenue);
             const originalSalesRevenueBalance = salesRevenueAccount.accountBalance;
             salesRevenueAccount.accountBalance += salesRevenue;
 
