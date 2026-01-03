@@ -11,7 +11,7 @@ import JournalEntryModal from "./JournalEntryModal.jsx";
 
 import { refreshLedgerData } from "../../../utils/refreshLedger.js";
 import Input from "../../Input.jsx";
-import { ArrowUpCircle, ArrowDownCircle } from "lucide-react";
+import { ArrowUpCircle, ArrowDownCircle, Eye, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
 
 const Ledger = () => {
@@ -23,6 +23,7 @@ const Ledger = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [totalPayAndRec, setTotalPayAndRec] = useState({});
+  const [showTotals, setShowTotals] = useState(false);
 
   const [accountTypeFilter, setAccountTypeFilter] = useState("all");
   const [balanceTypeFilter, setBalanceTypeFilter] = useState("all");
@@ -383,44 +384,56 @@ const Ledger = () => {
 
         {
           !selectedAccount && (
-            <div className="flex gap-3">
-              {/* Receivables */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
+            <div className="flex gap-3 items-center">
+              <button
+                onClick={() => setShowTotals(!showTotals)}
+                className="p-2 rounded-full hover:bg-gray-200 transition"
+                title={showTotals ? "Hide totals" : "Show totals"}
               >
-                <div className="rounded-2xl shadow-md bg-white border p-4 flex items-center gap-3">
-                  <div className="p-2 rounded-full bg-green-100">
-                    <ArrowDownCircle className="w-6 h-6 text-green-600" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Total Receivables</p>
-                    <p className="text-xl font-semibold">
-                      {functions.formatAsianNumber(totalPayAndRec?.totalReceivables)}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
+                {showTotals ? <Eye className="w-6 h-6" /> : <EyeOff className="w-6 h-6" />}
+              </button>
 
-              {/* Payables */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-              >
-                <div className="rounded-2xl shadow-md bg-white border p-4 flex items-center gap-3">
-                  <div className="p-2 rounded-full bg-red-100">
-                    <ArrowUpCircle className="w-6 h-6 text-red-600" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Total Payables</p>
-                    <p className="text-xl font-semibold">
-                      {functions.formatAsianNumber(totalPayAndRec?.totalPayables)}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
+              {showTotals && (
+                <>
+                  {/* Receivables */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <div className="rounded-2xl shadow-md bg-white border p-4 flex items-center gap-3">
+                      <div className="p-2 rounded-full bg-green-100">
+                        <ArrowDownCircle className="w-6 h-6 text-green-600" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500">Total Receivables</p>
+                        <p className="text-xl font-semibold">
+                          {functions.formatAsianNumber(totalPayAndRec?.totalReceivables)}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Payables */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                  >
+                    <div className="rounded-2xl shadow-md bg-white border p-4 flex items-center gap-3">
+                      <div className="p-2 rounded-full bg-red-100">
+                        <ArrowUpCircle className="w-6 h-6 text-red-600" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500">Total Payables</p>
+                        <p className="text-xl font-semibold">
+                          {functions.formatAsianNumber(totalPayAndRec?.totalPayables)}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                </>
+              )}
             </div>
           )
         }
