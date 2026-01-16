@@ -335,8 +335,18 @@ const Ledger = () => {
       account.subCategories.flatMap(sub =>
         sub.individualAccounts.filter(individual => {
           // console.log('individual', individual)
-          if ((individual.customerId) && (individual.mergedInto === null)) totalReceivables += getComputedBalance(individual);
-          if ((individual.supplierId || individual.companyId) && individual.mergedInto === null) totalPayables += getComputedBalance(individual);
+          if ((individual.customerId) && (individual.mergedInto === null) && (!individual.isMerged)) totalReceivables += getComputedBalance(individual);
+          if ((individual.supplierId || individual.companyId) && individual.mergedInto === null && (!individual.isMerged))  totalPayables += getComputedBalance(individual);
+
+          if(individual.isMerged) {
+            const isMergeBalance = getComputedBalance(individual);
+            if(isMergeBalance > 0) {
+              totalReceivables += isMergeBalance;
+            } else if(isMergeBalance < 0) {
+              totalPayables += (isMergeBalance);
+            }
+          } 
+
         })
       )
     )
