@@ -1082,7 +1082,8 @@ const mergeAccounts = asyncHandler(async (req, res) => {
                     companyId: childAccount.companyId,
                     supplierId: childAccount.supplierId,
                     customerId: childAccount.customerId,
-                    mergedInto: null
+                    mergedInto: null,
+                    isMerged: true
                 });
             }
 
