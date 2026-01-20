@@ -535,7 +535,7 @@ const mergeBills = asyncHandler(async (req, res) => {
 });
 
 const updateBill = asyncHandler(async (req, res) => {
-    const { _id, description, billStatus, paidAmount, flatDiscount, dueDate, billItems, customer } = req.body;
+    const { _id, description, billStatus, paidAmount, flatDiscount, dueDate, billItems, extraItems, customer } = req.body;
     const user = req.user;
 
     if (!user) {
@@ -558,7 +558,9 @@ const updateBill = asyncHandler(async (req, res) => {
 
             // Calculate total amounts
             const calculateTotalAmount = (items) => {
-                return items.reduce((total, item) => total + item.billItemPrice * item.quantity, 0);
+                const billItemsTotal =  items.reduce((total, item) => total + item.billItemPrice * item.quantity, 0);
+                const extraItemsTotal = extraItems?.reduce((sum, item) => sum + (Number(item?.salePrice || 0) * Number(item?.quantity || 0)), 0) || 0;
+                return billItemsTotal + extraItemsTotal;
             };
 
             const calculateTotalPurchaseAmount = (items) => {
@@ -576,6 +578,7 @@ const updateBill = asyncHandler(async (req, res) => {
                 flatDiscount: flatDiscount !== undefined ? flatDiscount : oldBill.flatDiscount,
                 dueDate: dueDate !== undefined ? dueDate : oldBill.dueDate,
                 billItems: Array.isArray(billItems) ? billItems : oldBill.billItems,
+                extraItems: Array.isArray(extraItems) ? extraItems : oldBill.extraItems,
                 customer: customer !== undefined ? customer : (oldBill.customer !== undefined ? oldBill.customer : null)
             };
 
