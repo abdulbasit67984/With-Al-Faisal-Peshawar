@@ -501,11 +501,12 @@ const updateProduct = asyncHandler(async (req, res) => {
             }
 
             // Update inventory individual account only if productPurchasePrice changes
+
             if (productPurchasePrice !== undefined && productPurchasePrice !== oldProduct.productPurchasePrice) {
                 const originalStatusPrice = lastStatusOfPrice.newPrice;
-                lastStatusOfPrice.newPrice = productPurchasePrice;
-
                 const originalPurchasePrice = oldProduct.productPurchasePrice;
+
+                lastStatusOfPrice.newPrice = productPurchasePrice;
                 oldProduct.productPurchasePrice = productPurchasePrice;
 
                 transaction.addOperation(
@@ -520,7 +521,6 @@ const updateProduct = asyncHandler(async (req, res) => {
                         await oldProduct.save();
                     }
                 );
-
             }
 
             // Update product total quantity and status of price remaining quantity if productPack or productTotalQuantity changes
