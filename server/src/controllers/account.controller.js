@@ -1362,19 +1362,19 @@ const getTotalInventory = asyncHandler(async (req, res) => {
 
             const purchaseValue = packs * productPurchasePrice;
 
-            console.log(`
-        Product: ${productName}
-        Total Quantity: ${productTotalQuantity}
-        Pack Size: ${productPack}
-        Purchase Price (per pack): ${productPurchasePrice}
-        Packs: ${packs}
-        Purchase Value: ${purchaseValue}
-      `);
+    //         console.log(`
+    //     Product: ${productName}
+    //     Total Quantity: ${productTotalQuantity}
+    //     Pack Size: ${productPack}
+    //     Purchase Price (per pack): ${productPurchasePrice}
+    //     Packs: ${packs}
+    //     Purchase Value: ${purchaseValue}
+    //   `);
 
             totalInventoryValue += purchaseValue;
         });
 
-        console.log("TOTAL INVENTORY VALUE:", totalInventoryValue);
+        // console.log("TOTAL INVENTORY VALUE:", totalInventoryValue);
 
         res.status(200).json(
             new ApiResponse(200, { totalInventoryValue }, "Inventory details fetched successfully!")
