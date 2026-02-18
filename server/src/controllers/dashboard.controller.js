@@ -71,7 +71,8 @@ const getDashboardData = asyncHandler(async (req, res) => {
       {
         $match: {
           BusinessId: new mongoose.Types.ObjectId(BusinessId),
-          createdAt: { $gt: startDate }
+          createdAt: { $gt: startDate },
+          mergedInto: null
         }
       },
       {
@@ -82,7 +83,11 @@ const getDashboardData = asyncHandler(async (req, res) => {
           totalSales: {
             $sum: { $subtract: ["$totalAmount", "$flatDiscount"] }
           },
-          totalRevenue: { $sum: "$billRevenue" }
+          totalRevenue: {
+            $sum: {
+              $subtract: ["$totalAmount", { $add: [{ $ifNull: ["$flatDiscount", 0] }, { $ifNull: ["$totalPurchaseAmount", 0] }] }]
+            }
+          }
         }
       },
       {
@@ -170,7 +175,8 @@ const getDashboardData = asyncHandler(async (req, res) => {
         $match: {
           BusinessId: new mongoose.Types.ObjectId(BusinessId),
           createdAt: { $gte: startDate },
-        },
+          mergedInto: null
+        }
       },
       { $unwind: "$billItems" },
       {

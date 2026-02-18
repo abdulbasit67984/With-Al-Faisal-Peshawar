@@ -278,10 +278,22 @@ const getDailyReports = asyncHandler(async (req, res) => {
                     paidAmount: { $first: "$paidAmount" },
                     flatDiscount: { $first: "$flatDiscount" },
                     billRevenue: { $first: "$billRevenue" },
+                    totalPurchaseAmount: { $first: "$totalPurchaseAmount" },
                     customerDetails: { $first: "$customerDetails" },
                     salesPersonDetails: { $first: "$salesPersonDetails" },
                     billItems: { $push: "$billItems" },
                     createdAt: { $first: "$createdAt" }
+                }
+            },
+            {
+                $addFields: {
+                    billRevenue: {
+                        $cond: [
+                            { $eq: ["$billRevenue", null] },
+                            { $subtract: ["$totalAmount", { $add: [{ $ifNull: ["$flatDiscount", 0] }, { $ifNull: ["$totalPurchaseAmount", 0] }] }] },
+                            "$billRevenue"
+                        ]
+                    }
                 }
             },
             { $sort: { createdAt: -1 } }
@@ -430,7 +442,8 @@ const getDailyReports = asyncHandler(async (req, res) => {
                     BusinessId: new mongoose.Types.ObjectId(BusinessId),
                     createdAt: dateFilter,
                     customer: null,                     // No customer linked → cash sale
-                    paidAmount: { $gt: 0 }              // Only include paid bills
+                    paidAmount: { $gt: 0 },             // Only include paid bills
+                    mergedInto: null                    // Exclude merged bills
                 }
             },
             {
